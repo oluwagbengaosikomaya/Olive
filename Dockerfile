@@ -22,10 +22,12 @@ COPY . /var/www/html
 RUN composer install --no-interaction --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-dev \
     && npm install \
     && npm run build \
-    && cp .env.example .env \
-    && php artisan key:generate --force \
     && mkdir -p database \
     && touch database/database.sqlite \
+    && php artisan key:generate --force \
+    && php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache \
     && php artisan migrate --force
 
 EXPOSE 8000
