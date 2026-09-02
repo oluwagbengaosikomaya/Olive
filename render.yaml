@@ -15,7 +15,9 @@ services:
       - key: APP_KEY
         generateValue: true
       - key: APP_URL
-        value: https://olive.onrender.com
+        value: https://olive-f6js.onrender.com
+      - key: ASSET_URL
+        value: https://olive-f6js.onrender.com
       - key: DB_CONNECTION
         value: sqlite
       - key: DB_DATABASE
