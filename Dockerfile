@@ -23,7 +23,10 @@ RUN composer install --no-interaction --prefer-dist --no-progress --no-suggest -
     && npm install \
     && npm run build \
     && cp .env.example .env \
-    && php artisan key:generate --force
+    && php artisan key:generate --force \
+    && mkdir -p database \
+    && touch database/database.sqlite \
+    && php artisan migrate --force
 
 EXPOSE 8000
 
