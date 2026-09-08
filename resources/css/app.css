@@ -1782,7 +1782,8 @@ body {
 
 /* ── MAIN MEALS PAGE ── */
 .main-meals-page {
-    background: #0d0d0d;
+    /* background: #0d0d0d; */
+    background: #e34949;
     min-height: 100vh;
 }
 
@@ -3099,7 +3100,7 @@ body {
 }
 
 .legal-updated {
-    font-size: 0.82rem;
+    font-size: 1.00rem;
     color: rgba(255,255,255,0.4);
     margin-bottom: 2.5rem;
 }
