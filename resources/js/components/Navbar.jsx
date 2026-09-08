@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-
-const path = window.location.pathname;
+import { navigate } from './navigate';
 
 export default function Navbar({ user, onLogout }) {
     const [menuOpen, setMenuOpen] = useState(false);
+    const path = window.location.pathname;
 
     const link = (href, label, cls = '') => (
         <li>
             <a
                 href={href}
                 className={`${cls} ${path === href ? 'nav-active' : ''}`.trim()}
+                onClick={(e) => { e.preventDefault(); navigate(href); setMenuOpen(false); }}
             >
                 {label}
             </a>
@@ -19,7 +20,7 @@ export default function Navbar({ user, onLogout }) {
     return (
         <nav className="navbar">
             <div className="navbar-inner">
-                <a href="/" className="logo">
+                <a href="/" className="logo" onClick={(e) => { e.preventDefault(); navigate('/'); }}>
                     <img src="/olive.jpeg" alt="olivedine" className="logo-img" />
                 </a>
 

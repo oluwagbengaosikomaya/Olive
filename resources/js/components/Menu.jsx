@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import { useAuth } from './AuthContext';
+import { navigate } from './navigate';
 
 const menuCategories = [
     {
@@ -81,13 +82,6 @@ const menuCategories = [
 export default function Menu() {
     const { user, logout } = useAuth();
 
-    const handleCategoryClick = () => {
-        if (!user) {
-            sessionStorage.setItem('olive_intended', '/menu');
-            window.location.href = '/login';
-        }
-    };
-
     return (
         <div className="menu-page">
             <Navbar user={user} onLogout={logout} />
@@ -107,8 +101,8 @@ export default function Menu() {
                         <div className="menu-category-text">
                             <h2>{cat.title}</h2>
                             <p>{cat.description}</p>
-                            <button className="menu-category-btn" onClick={() => user ? window.location.href = cat.link || '#' : handleCategoryClick()}>
-                                {user ? cat.btnText : '🔒 Login to Explore'}
+                            <button className="menu-category-btn" onClick={() => navigate(cat.link || '#')}>
+                                {cat.btnText}
                             </button>
                         </div>
                     </div>
@@ -118,8 +112,8 @@ export default function Menu() {
             {!user && (
                 <div className="public-cta-banner">
                     <span>🔒 Sign in to explore full menu categories and place orders</span>
-                    <a href="/login" className="public-cta-btn">Login</a>
-                    <a href="/register" className="public-cta-btn outline">Sign Up Free</a>
+                    <button className="public-cta-btn" onClick={() => navigate('/login')}>Login</button>
+                    <button className="public-cta-btn outline" onClick={() => navigate('/register')}>Sign Up Free</button>
                 </div>
             )}
 

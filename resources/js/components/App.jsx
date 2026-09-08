@@ -27,8 +27,7 @@ import Privacy from './Privacy';
 import NotFound from './NotFound';
 import BackToTop from './BackToTop';
 import { AuthProvider, useAuth } from './AuthContext';
-
-const path = window.location.pathname;
+import { navigate } from './navigate';
 
 const pageTitles = {
     '/':                          'Olive Dine — Healthy Meals Delivered',
@@ -61,13 +60,14 @@ const pageTitles = {
 
 function GuardedRoute({ children, adminOnly = false }) {
     const { user } = useAuth();
+    const path = window.location.pathname;
     if (!user) {
         sessionStorage.setItem('olive_intended', path);
-        window.location.href = '/login';
+        navigate('/login');
         return null;
     }
     if (adminOnly && user.role !== 'admin' && user.role !== 'superadmin') {
-        window.location.href = '/dashboard';
+        navigate('/dashboard');
         return null;
     }
     return children;
@@ -75,13 +75,18 @@ function GuardedRoute({ children, adminOnly = false }) {
 
 function Routes() {
     const { user, logout } = useAuth();
+    const [path, setPath] = React.useState(window.location.pathname);
 
     useEffect(() => {
-        // Set page title
-        document.title = pageTitles[path] || 'Olive Dine';
-        // Scroll to top on every route
-        window.scrollTo(0, 0);
+        const onPop = () => setPath(window.location.pathname);
+        window.addEventListener('popstate', onPop);
+        return () => window.removeEventListener('popstate', onPop);
     }, []);
+
+    useEffect(() => {
+        document.title = pageTitles[path] || 'Olive Dine';
+        window.scrollTo(0, 0);
+    }, [path]);
 
     if (path === '/register')    return <Register />;
     if (path === '/login')       return <Login />;

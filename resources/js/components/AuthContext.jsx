@@ -33,7 +33,8 @@ export function AuthProvider({ children }) {
     const logout = () => {
         localStorage.removeItem('olive_user');
         setUser(null);
-        window.location.href = '/';
+        window.history.pushState({}, '', '/');
+        window.dispatchEvent(new PopStateEvent('popstate'));
     };
 
     return (
